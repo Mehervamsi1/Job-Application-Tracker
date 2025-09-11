@@ -1,5 +1,3 @@
-Absolutely! Here's the **fully self-contained `README.md`** with **everything properly in Markdown**, including code blocks for commands:
-
 
 # Job Application Tracker
 
