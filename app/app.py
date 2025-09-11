@@ -3,8 +3,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-import os
 from functools import wraps
+from datetime import datetime
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -67,18 +67,15 @@ def signup():
         password = request.form['password']
         confirm_password = request.form['confirm_password']
         
-        # Validation
         if password != confirm_password:
             flash('Passwords do not match!', 'error')
             return render_template('signup.html')
         
-        # Check if user exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('User with this email already exists!', 'error')
             return render_template('signup.html')
         
-        # Create new user
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         new_user = User(name=name, email=email, password=hashed_password)
         
@@ -87,7 +84,7 @@ def signup():
             db.session.commit()
             flash('Account created successfully! Please sign in.', 'success')
             return redirect(url_for('signin'))
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             flash('An error occurred. Please try again.', 'error')
     
@@ -99,7 +96,6 @@ def signin():
         email = request.form['email']
         password = request.form['password']
         
-        # Find user
         user = User.query.filter_by(email=email).first()
         
         if user and bcrypt.check_password_hash(user.password, password):
@@ -124,12 +120,10 @@ def dashboard():
     user_id = session['user_id']
     user = User.query.get(user_id)
     
-    # Get user's job applications
     job_applications = JobApplication.query.filter_by(user_id=user_id)\
                                           .order_by(JobApplication.application_date.desc())\
                                           .all()
     
-    # Calculate statistics
     total_applications = len(job_applications)
     pending_applications = len([job for job in job_applications if job.status == 'applied'])
     interview_applications = len([job for job in job_applications if job.status == 'interview'])
@@ -157,8 +151,7 @@ def add_job():
         application_date = datetime.strptime(request.form['application_date'], '%Y-%m-%d').date()
         job_url = request.form['job_url'] if request.form['job_url'] else None
         notes = request.form['notes'] if request.form['notes'] else None
-        
-        # Create new job application
+
         new_job = JobApplication(
             title=title,
             company=company,
@@ -168,17 +161,20 @@ def add_job():
             notes=notes,
             user_id=session['user_id']
         )
-        
+
         try:
             db.session.add(new_job)
             db.session.commit()
             flash('Job application added successfully!', 'success')
             return redirect(url_for('dashboard'))
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             flash('An error occurred. Please try again.', 'error')
-    
-    return render_template('add_job.html')
+
+    # Pass today's date to template
+    today = datetime.now().strftime('%Y-%m-%d')
+    return render_template('add_job.html', today=today)
+
 
 @app.route('/edit_job/<int:job_id>', methods=['GET', 'POST'])
 @login_required
@@ -197,7 +193,7 @@ def edit_job(job_id):
             db.session.commit()
             flash('Job application updated successfully!', 'success')
             return redirect(url_for('dashboard'))
-        except Exception as e:
+        except Exception:
             db.session.rollback()
             flash('An error occurred. Please try again.', 'error')
     
@@ -212,16 +208,11 @@ def delete_job(job_id):
         db.session.delete(job)
         db.session.commit()
         flash('Job application deleted successfully!', 'success')
-    except Exception as e:
+    except Exception:
         db.session.rollback()
         flash('An error occurred. Please try again.', 'error')
     
     return redirect(url_for('dashboard'))
-
-# Create database tables
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 if __name__ == '__main__':
     with app.app_context():

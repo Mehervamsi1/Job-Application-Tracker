@@ -22,9 +22,10 @@
             <label for="confirm_password">Confirm Password</label>
             <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
         </div>
-        <button type="submit" class="btn" style="width: 100%;">Sign Up</button>
+        <button type="submit" class="btn btn-full">Sign Up</button>
     </form>
-    <p style="text-align: center; margin-top: 20px;">
-        Already have an account? <a href="{{ url_for('signin') }}" style="color: #667eea;">Sign In</a>
+    <p class="auth-footer">
+        Already have an account? <a href="{{ url_for('signin') }}" class="link">Sign In</a>
     </p>
 </div>
+{% endblock %}
