@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Add Job - Job Tracker{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Add New Job Application</h2>
+    <form method="POST">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="title">Job Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" required>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="">Select Status</option>
+                    <option value="applied">Applied</option>
+                    <option value="interview">Interview</option>
+                    <option value="offer">Offer</option>
+                    <option value="rejected">Rejected</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="application_date">Application Date</label>
+                <input type="date" id="application_date" name="application_date" required 
+                       value="{{ datetime.now().strftime('%Y-%m-%d') }}">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="job_url">Job URL (Optional)</label>
+            <input type="url" id="job_url" name="job_url">
+        </div>
+        
+        <div class="form-group">
+            <label for="notes">Notes (Optional)</label>
+            <textarea id="notes" name="notes" rows="4" 
+                      placeholder="Add any additional notes about this application..."></textarea>
+        </div>
+        
+        <div style="display: flex; gap: 15px;">
+            <button type="submit" class="btn">Add Job Application</button>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
