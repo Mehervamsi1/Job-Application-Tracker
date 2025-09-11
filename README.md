@@ -1,6 +1,6 @@
 Absolutely! Here's the **fully self-contained `README.md`** with **everything properly in Markdown**, including code blocks for commands:
 
-````markdown
+
 # Job Application Tracker
 
 A modern web application to track your job applications, built with **Flask**, **SQLAlchemy**, and **PostgreSQL**. This project helps users manage job applications efficiently, monitor statuses, and maintain important notes in a secure, user-friendly interface.
@@ -167,11 +167,4 @@ This project is licensed under the MIT License.
 * [Flask-Bcrypt](https://flask-bcrypt.readthedocs.io/)
 * [python-dotenv](https://pypi.org/project/python-dotenv/)
 
-```
 
----
-
-Everything is **Markdown-safe**, including all commands in code blocks.  
-
-If you want, I can also **add badges and screenshots placeholders** so your GitHub page looks **super professional**. Do you want me to do that next?
-```
