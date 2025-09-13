@@ -4,6 +4,9 @@
 A modern web application to track your job applications, built with **Flask**, **SQLAlchemy**, and **PostgreSQL**. This project helps users manage job applications efficiently, monitor statuses, and maintain important notes in a secure, user-friendly interface.
 
 ---
+The application has been deployed and can be accessed from the following url.
+https://job-application-tracker-1-tlxq.onrender.com/dashboard
+
 
 ## 🚀 Features
 
